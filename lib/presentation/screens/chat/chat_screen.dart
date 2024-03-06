@@ -27,7 +27,7 @@ Widget build(BuildContext context) {
 
 
 class _ChatView extends StatelessWidget {
-  const _ChatView({super.key});
+  const _ChatView();
 
   @override
   Widget build(BuildContext context) {
