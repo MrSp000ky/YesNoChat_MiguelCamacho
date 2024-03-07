@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_practica_29feb/presentation/screens/chat/shared/message_field_box.dart';
 import 'package:flutter_practica_29feb/widget/his_message_bubble.dart';
 import 'package:flutter_practica_29feb/widget/my_messabe_bubble.dart';
 
@@ -27,7 +28,7 @@ Widget build(BuildContext context) {
 
 
 class _ChatView extends StatelessWidget {
- const _ChatView({super.key});
+  const _ChatView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -46,8 +47,7 @@ class _ChatView extends StatelessWidget {
               })
               ) 
             ),
-            const Text("Texto 1"),
-            const Text("Texto 2")
+            const MessageFieldBox()
           ],
         ),
         )
