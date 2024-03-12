@@ -32,8 +32,8 @@ Widget build(BuildContext context) {
 
 class _ChatView extends StatelessWidget {
   const _ChatView({super.key});
-  @override
-   Widget build(BuildContext context) {
+ @override
+  Widget build(BuildContext context) {
     final ChatProvider chatProvider = context.watch<ChatProvider>();
     return SafeArea(
         child: Padding(
@@ -44,14 +44,18 @@ class _ChatView extends StatelessWidget {
               child: ListView.builder(
                   itemCount: chatProvider.messageList.length,
                   itemBuilder: ((context, index) {
-                    print(chatProvider.messageList[index].text);
                     return (chatProvider.messageList[index].fromWho ==
                             FromWho.hers)
-                        ? const HisMessageBubble()
+                        ? HisMessageBubble(
+                            message: chatProvider.messageList[index].text,
+                            imageUrl: chatProvider.messageList[index].imageURL,
+                          )
                         : MyMessageBubble(
                             message: chatProvider.messageList[index].text);
                   }))),
-          const MessageFieldBox()
+          MessageFieldBox(
+            onValue: (value) => chatProvider.sendMessage(value),
+          )
         ],
       ),
     ));

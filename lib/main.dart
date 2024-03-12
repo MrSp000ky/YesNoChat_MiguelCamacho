@@ -18,7 +18,7 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => ChatProvider()),
       ],
       child: MaterialApp(
-          title: 'chat',
+          title: 'Chat con el Master Chef Chiquito',
           debugShowCheckedModeBanner: false,
           theme: AppTheme(selectedColor: 0).theme(),
           home: const ChatScreen()),
