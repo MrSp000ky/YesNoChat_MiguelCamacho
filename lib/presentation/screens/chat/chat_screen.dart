@@ -1,8 +1,11 @@
 
 import 'package:flutter/material.dart';
-import 'package:flutter_practica_29feb/presentation/screens/chat/shared/message_field_box.dart';
-import 'package:flutter_practica_29feb/widget/his_message_bubble.dart';
-import 'package:flutter_practica_29feb/widget/my_messabe_bubble.dart';
+import 'package:provider/provider.dart';
+import 'package:flutter_practica_29feb/domain/entities/message.dart';
+import 'package:flutter_practica_29feb/presentation/providers/chat_provider.dart';
+import 'package:flutter_practica_29feb/presentation/shared/message_field_box.dart';
+import 'package:flutter_practica_29feb/presentation/widget/his_message_bubble.dart';
+import 'package:flutter_practica_29feb/presentation/widget/my_messabe_bubble.dart';
 
 
 class ChatScreen extends StatelessWidget{
@@ -29,28 +32,28 @@ Widget build(BuildContext context) {
 
 class _ChatView extends StatelessWidget {
   const _ChatView({super.key});
-
   @override
-  Widget build(BuildContext context) {
+   Widget build(BuildContext context) {
+    final ChatProvider chatProvider = context.watch<ChatProvider>();
     return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10),
-        child: Column(
-          children: [
-            Expanded(
+        child: Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      child: Column(
+        children: [
+          Expanded(
               child: ListView.builder(
-                itemCount: 101,
-                itemBuilder: ((context,index){
-                return (index % 2 == 0)
-                ? const HisMessageBubble()
-                : const MyMessageBubble();
-              })
-              ) 
-            ),
-            const MessageFieldBox()
-          ],
-        ),
-        )
-        );
+                  itemCount: chatProvider.messageList.length,
+                  itemBuilder: ((context, index) {
+                    print(chatProvider.messageList[index].text);
+                    return (chatProvider.messageList[index].fromWho ==
+                            FromWho.hers)
+                        ? const HisMessageBubble()
+                        : MyMessageBubble(
+                            message: chatProvider.messageList[index].text);
+                  }))),
+          const MessageFieldBox()
+        ],
+      ),
+    ));
   }
 }
