@@ -1,26 +1,35 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_practica_29feb/config/theme/helpers/get_yes_no_answer.dart';
 import 'package:flutter_practica_29feb/domain/entities/message.dart';
 
 class ChatProvider extends ChangeNotifier {
-  List<Message> messageList = [
-    Message(text: 'Jefe, usted sabe como hacer unas pizzas bien maniacas?', fromWho: FromWho.me),
-    Message(text: 'Tu que crees mijo', fromWho: FromWho.hers,
-    imageURL: 'https://yesno.wtf/assets/yes/13-c3082a998e7758be8e582276f35d1336.gif'),
+  
+  final ScrollController scrollController = ScrollController();
+  final GetYesNoAnser getYesNoAnser = GetYesNoAnser();
 
-    Message(text: 'Y si le pido unas quesadillas tambien jala?', fromWho: FromWho.me),
-
-    Message(text: 'Me ofende la pregunta.', fromWho: FromWho.hers,
-    imageURL: 'https://yesno.wtf/assets/yes/13-c3082a998e7758be8e582276f35d1336.gif'),
-
-
-  ];
+  List<Message> messageList = [];
 
 
   Future<void> sendMessage(String text) async {
+    if (text.isEmpty)return;
     final newMessage = Message(text: text, fromWho: FromWho.me);
     messageList.add(newMessage);
+    
+      await herReply();
+    
     notifyListeners();
+    moveScrollToBottom();
   }
 
+  Future <void> moveScrollToBottom()async{
+    await Future.delayed(const Duration(milliseconds: 100));
+    scrollController.animateTo(scrollController.position.maxScrollExtent, duration: const Duration(milliseconds: 300), curve: Curves.bounceIn);
+
+  }
+
+  Future<void> herReply()async{
+    final herMessage = await getYesNoAnser.getAnswer();
+    messageList.add(herMessage);
+  }
   
 }
